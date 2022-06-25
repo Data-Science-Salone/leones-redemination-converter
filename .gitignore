@@ -3,3 +3,4 @@
 node_modules
 /nodejs/node_modules
 /nodejs/.env
+/web-app/vue@2.6.0
