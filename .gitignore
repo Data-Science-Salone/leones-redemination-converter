@@ -2,4 +2,4 @@
 .ipynb_checkpoints
 node_modules
 /nodejs/node_modules
-vars
+/nodejs/.env
