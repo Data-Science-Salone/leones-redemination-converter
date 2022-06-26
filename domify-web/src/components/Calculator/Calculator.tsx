@@ -1,32 +1,16 @@
 import React, { FC, ReactElement, useEffect, useState, useRef } from "react";
 import { Card, TextInput, Select, Group, Title } from "@mantine/core";
-// import { ReactComponent as Usaflag } from "../../assets/usaflag.svg";
-// import { ReactComponent as Ukflag } from "../../assets/ukflag.svg";
-// import { ReactComponent as Euroflag } from "../../assets/euroflag.svg";
-// import { ReactComponent as Slflag } from "../../assets/slflagRound.svg";
-// import { ReactComponent as LeftArrow } from "../../assets/leftArrow.svg";
 import { ReactComponent as ExchangeHorizonta } from "../../assets/exchangehorizontal.svg";
-// import { Refresh } from "tabler-icons-react";
-// import NumberFormat from "react-number-format";
-// import Currency from "../Currency/Currency";
+
 import { useLocalStorage } from "@mantine/hooks";
 import NumberFormat from "react-number-format";
 const _ = require('lodash');
-
 interface Props {
-  name: String;
-  amount: number;
-  symbol: string;
-  flag: ReactElement;
+  rates: any
 }
 
-interface Direction {
-  new: string;
-  old: string;
-}
-
-const Calculator: FC = () => {
-  const [rates, setRates] = useLocalStorage<any>({ key: "rates" });
+const Calculator: FC<Props> = props => {
+ const {rates} = props
   const [curreny1, setCurrency1] = useState("usd");
   const [curreny2, setCurrency2] = useState("sll");
   const [amount1, setAmount1] = useState(0);
@@ -49,7 +33,7 @@ const Calculator: FC = () => {
     sllold: { symbol: "SLL" },
     sllnew: { symbol: "SLL" },
   };
-//   console.log(conversionRate);
+
   const InputCards: FC<{
     select: string;
     setSelect(value: any): void;

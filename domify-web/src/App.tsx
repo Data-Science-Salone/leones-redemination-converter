@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   AppShell,
   Header,
@@ -11,6 +11,7 @@ import {
   Divider,
   Center,
   Stack,
+  LoadingOverlay
 } from "@mantine/core";
 import Converter from "./components/Converter/converter";
 import Exchange from "./components/Exchange/Exchange";
@@ -19,20 +20,25 @@ import { useLocalStorage } from "@mantine/hooks";
 const axios = require("axios").default;
 
 function App() {
-  const [rates, setRates] = useLocalStorage<any>({
-    key: "rates",
-    defaultValue: { usd: { buying: "11,140" } },
-  });
+  const [rates, setRates] = useLocalStorage<any>({key: "rates", defaultValue: {usd: {buying: '11,140'}, gbp: {buying: '11,140'}, euro: {buying: '11,140'}}})
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true)
     axios
       .get("https://slmoney-converter.herokuapp.com/")
-      .then((res: any) => setRates(res.data))
+      .then((res: any) =>
+      { 
+        setRates(res.data)
+        setLoading(false)
+      
+      })
       .catch((error: any) => console.log(error));
-  }, []);
+  },[]);
 
   return (
     <div className="App">
+      { loading ? <LoadingOverlay visible={loading}/> :
       <AppShell
         padding={0}
         header={
@@ -48,11 +54,7 @@ function App() {
                 : theme.colors.gray[0],
           },
         })}
-        // footer={
-        //   <Footer height={40} p="md">
-        //     Application footer
-        //   </Footer>
-        // }
+        
       >
         <Container
           style={{ width: "100%", padding: "40px", marginTop: "40px" }}
@@ -62,11 +64,16 @@ function App() {
             <Title style={{ color: "#0059B3" }}>Leones Converter</Title>
             <Group py="lg" spacing="xl">
               <Converter
+              flagName1={"SLL OLD"}
+              flagName2={"SLL NEW"}
                 title="NEW TO OLD LEONES"
                 subTitle="1000 SLL Old = 1 SLL New"
               />
               <Converter
+                flagName1={"SLL NEW"}
+                flagName2={"SLL OLD"}
                 title="OLD TO NEW LEONES"
+                direction="new"
                 subTitle="1 SLL New = 100 SLL Old"
               />
             </Group>
@@ -103,15 +110,15 @@ function App() {
                   >
                     Rates for today
                   </Title>
-                  <Exchange />
+                  <Exchange rates={rates} />
                 </Stack>
                 <Divider />
-                <Calculator />
+                <Calculator rates={rates} />
               </Card>
             </Stack>
           </Center>
         </Container>
-      </AppShell>
+      </AppShell>}
     </div>
   );
 }
