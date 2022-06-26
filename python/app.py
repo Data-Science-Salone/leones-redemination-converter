@@ -1,11 +1,11 @@
-from flask import Flask
+from flask import Flask, request, jsonify
 from flask_restful import Resource, Api
 from bs4 import BeautifulSoup
 import urllib.request
 from flask_cors import CORS
 
 app = Flask(__name__)
-cors = CORS(app)
+CORS(app)
 api = Api(app)
 class curency_converter(Resource):
     def get(self):
@@ -67,6 +67,8 @@ class curency_converter(Resource):
         euro_sell_split = euro_sell_rate.split(': ')
         euro_sell = euro_sell_split[1]
         forex = {"usd": {"selling":usd_sell,"buying":usd_buy},"gbp":{"selling":gbp_sell,"buying":gbp_buy},"euro":{"selling":euro_sell,"buying":euro_buy}}
+        forex=jsonify(forex)
+        forex.headers.add("Access-Control-Allow-Origin", "*")
         return forex
 
 api.add_resource(curency_converter, '/')
