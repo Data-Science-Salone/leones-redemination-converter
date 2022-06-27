@@ -2,7 +2,7 @@ import React, { FC, ReactElement, useEffect, useState, useRef } from "react";
 import { Card, TextInput, Select, Group, Title } from "@mantine/core";
 import { ReactComponent as ExchangeHorizonta } from "../../assets/exchangehorizontal.svg";
 
-import { useLocalStorage } from "@mantine/hooks";
+import {ChevronDown } from 'tabler-icons-react'
 import NumberFormat from "react-number-format";
 const _ = require('lodash');
 interface Props {
@@ -12,7 +12,7 @@ interface Props {
 const Calculator: FC<Props> = props => {
  const {rates} = props
   const [curreny1, setCurrency1] = useState("usd");
-  const [curreny2, setCurrency2] = useState("sll");
+  const [curreny2, setCurrency2] = useState("sllnew");
   const [amount1, setAmount1] = useState(0);
   const [amount2, setAmount2] = useState(0);
   const [conversionRate, setConvertionRates] = useState(16725);
@@ -48,6 +48,12 @@ const Calculator: FC<Props> = props => {
           <Select
             value={props.select}
             onChange={props.setSelect}
+            variant="unstyled"
+            size="md"
+            rightSectionWidth={30}
+            rightSection={<ChevronDown size={20} />}
+            style={{ backgroundColor: "#F5F6FA", marginBottom: "10px", color: "#95BBFF", paddingLeft: '15px' }}
+            styles={{rightSection: { pointerEvents: 'none' }, item: { color: 'indigo' }, label: { color: 'blue', weight: 'bold' },}}
             p={5}
             data={[
               {
