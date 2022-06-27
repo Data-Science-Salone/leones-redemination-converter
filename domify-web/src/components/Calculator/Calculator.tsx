@@ -4,7 +4,7 @@ import { ReactComponent as ExchangeHorizonta } from "../../assets/exchangehorizo
 
 import {ChevronDown } from 'tabler-icons-react'
 import NumberFormat from "react-number-format";
-const _ = require('lodash');
+
 interface Props {
   rates: any
 }
@@ -15,17 +15,15 @@ const Calculator: FC<Props> = props => {
   const [curreny2, setCurrency2] = useState("sllnew");
   const [amount1, setAmount1] = useState(0);
   const [amount2, setAmount2] = useState(0);
-  const [conversionRate, setConvertionRates] = useState(16725);
-  console.log(rates[curreny1].buying.split)
+
   
-
-
   const filterNum = (str: string) => {
     const numericalChar = new Set([ ".","0","1","2","3","4","5","6","7","8","9" ]);
     str = str.split("").filter((char: any) => numericalChar.has(char)).join("");
     return str;
   }
-  console.log(  parseFloat(filterNum(rates[curreny1].buying)))
+  
+
   const dropDown: any = {
     usd: { symbol: "$" },
     euro: { symbol: "€" },
@@ -83,6 +81,8 @@ const Calculator: FC<Props> = props => {
           <TextInput
             placeholder="Enter amount"
             value={props.amount}
+            variant="unstyled"
+            style={{ backgroundColor: "#F5F6FA",  color: "#95BBFF",  }}
             onChange={(event) =>
               setAmount1(parseInt(event.currentTarget.value))
             }
@@ -107,10 +107,6 @@ const Calculator: FC<Props> = props => {
       </Card>
     </div>
   );
-//   useEffect(() => {
-   
-//   }, []);
-
 
   return (
     <Group pt={20} pb={10}>
