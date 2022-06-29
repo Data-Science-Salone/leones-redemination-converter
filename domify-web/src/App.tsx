@@ -66,13 +66,13 @@ function App() {
               <Converter
               flagName1={"SLL OLD"}
               flagName2={"SLL NEW"}
-                title="NEW TO OLD LEONES"
+                title="OLD TO NEW LEONES"
                 subTitle="1000 SLL Old = 1 SLL New"
               />
               <Converter
                 flagName1={"SLL NEW"}
                 flagName2={"SLL OLD"}
-                title="OLD TO NEW LEONES"
+                title="NEW TO OLD LEONES"
                 direction="new"
                 subTitle="1 SLL New = 100 SLL Old"
               />
