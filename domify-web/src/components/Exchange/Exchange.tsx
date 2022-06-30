@@ -13,10 +13,7 @@ import Currency from "../Currency/Currency";
 const axios = require('axios').default;
 
 interface Props {
-  name: String;
-  amount: number;
-  symbol: string;
-  flag: ReactElement;
+  rates: any
 }
 
 interface Direction {
@@ -24,15 +21,15 @@ interface Direction {
   old: string;
 }
 
-const Exchange: FC = () => {
-    const [rates, setRates] = useLocalStorage<any>({key: "rates", defaultValue: {usd: {buying: '11,140'}, gbp: {buying: '11,140'}, euro: {buying: '11,140'}}})
+const Exchange: FC<Props> = props => {
+ const { rates} = props
     
-  useEffect(() => {
-    axios.get('https://slmoney-converter.herokuapp.com/')
-    .then((res: any) => setRates(res.data))
-    .catch((error: any) => console.log(error));
+//   useEffect(() => {
+//     axios.get('https://slmoney-converter.herokuapp.com/')
+//     .then((res: any) => setRates(res.data))
+//     .catch((error: any) => console.log(error));
     
-},[] );
+// },[] );
 
   return (
     <Stack style={{ padding: "10px" }} align="center" justify="center">
