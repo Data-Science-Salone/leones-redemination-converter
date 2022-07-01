@@ -28,13 +28,6 @@ const Calculator: FC<Props> = (props) => {
     disabled: boolean;
   }
 
-  const CustomInput: React.FunctionComponent<any> = (inputProps) => {
-    const handleFocus = (event: React.ChangeEvent<HTMLInputElement>) => {
-      event.target.setSelectionRange(0, event.target.value.length - 1);
-    };
-    return <TextInput  {...inputProps} onFocus={handleFocus} />;
-  };
-
   const SelectItem = forwardRef<HTMLDivElement, ItemProps>(
     ({ value, label, disabled, ...others }: ItemProps, ref) => (
       <>
@@ -161,9 +154,9 @@ const Calculator: FC<Props> = (props) => {
             placeholder="Enter amount"
             displayType="input"
             inputMode="decimal"
-            autoFocus
             decimalScale={2}
             thousandSeparator
+            autoFocus
             allowNegative={false}
             size="md"
             color="#012A74"
@@ -172,7 +165,7 @@ const Calculator: FC<Props> = (props) => {
               wrapper: { color: 'blue'}
             }}
             value={props.amount == 0 ? "" : props.amount}
-            customInput={CustomInput}
+            customInput={TextInput}
             variant="filled"
             
             prefix={`${dropDown[props.select]?.symbol} `}
@@ -192,7 +185,7 @@ const Calculator: FC<Props> = (props) => {
             decimalScale={2}
             fixedDecimalScale
             thousandSeparator
-            prefix={`${dropDown[props.select]?.symbol}`}
+            prefix={`${dropDown[props.select]?.symbol} `}
             displayType={"text"}
             type="text"
             renderText={(value) => (

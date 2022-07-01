@@ -57,7 +57,6 @@ const Converter: FC<Props> = (props) => {
             size="md"
             color="#012A74"
             variant="filled"
-            autoFocus
             thousandSeparator
             allowNegative={false}
             prefix={"Le "}
