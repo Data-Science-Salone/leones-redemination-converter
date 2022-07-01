@@ -130,7 +130,7 @@ function App() {
               
               <Stack align="center" justify="center">
                 <Title style={{ color: `${IsError ? "red" : "white"}`, paddingTop: "57px" }}>
-                  {IsError ? "Forex Not Avaliable" : "Forex Exchanges"}
+                  {IsError ? "Forex Not Available" : "Forex Exchanges"}
                 </Title>
                 
 
