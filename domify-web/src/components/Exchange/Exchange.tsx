@@ -24,19 +24,17 @@ interface Direction {
 const Exchange: FC<Props> = props => {
  const { rates} = props
     
-//   useEffect(() => {
-//     axios.get('https://slmoney-converter.herokuapp.com/')
-//     .then((res: any) => setRates(res.data))
-//     .catch((error: any) => console.log(error));
-    
-// },[] );
-
   return (
     <Stack style={{ padding: "10px" }} align="center" justify="center">
       <Group grow>
         <Currency name="USD" flag={<Usaflag />} amount={"1.0"} symbol="$" />
         <LeftArrow  style={{marginLeft: "10px", marginRight: "10px"}}/>
         <Currency name="SLL" flag={<Slflag />} amount={rates.usd.buying} symbol="SLL" />
+      </Group>
+      <Group grow>
+        <Currency name="USD-MID" flag={<Usaflag />} amount={"1.0"} symbol="$" />
+        <LeftArrow  style={{marginLeft: "10px", marginRight: "25px"}}/>
+        <Currency name="SLL" flag={<Slflag />} amount={rates.usd_mid['usd midrate']} symbol="SLL" />
       </Group>
       <Group position="apart">
         <Currency name="GBP" flag={<Ukflag />} amount={"1.0"} symbol="£" />
