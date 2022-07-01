@@ -71,7 +71,7 @@ function App() {
           footer={
             <Footer height={60} p="md">
             <Title order={5}>
-                Design & Developed by the Salone Data Science Community Team
+            Developed & Maintained by Data Science Salone
             </Title>
             </Footer>
           }
