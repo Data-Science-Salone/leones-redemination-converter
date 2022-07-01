@@ -63,7 +63,7 @@ function App() {
                   
                 </Box>
                 <Title order={3} style={{ color: "#0059B3" }}>
-                    Bank ok Sierra Leone
+                    The Bank of Sierra Leone
                   </Title>
               </Group>
             </Header>
