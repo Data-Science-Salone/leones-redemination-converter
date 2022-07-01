@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from "react";
-import { Card, TextInput, Text, Group, ActionIcon } from "@mantine/core";
+import { Card, TextInput, Text, Group, Button, Title } from "@mantine/core";
 import { ReactComponent as Coins } from "../../assets/coins.svg";
 import { ReactComponent as Exchange } from "../../assets/exchange.svg";
 import { ReactComponent as SlFlag } from "../../assets/slflag.svg";
@@ -46,30 +46,31 @@ const Converter: FC<Props> = (props) => {
             </Text>
           </Group>
           <NumberFormat
-            value={amount}
+            value={amount == 0 ? "" : amount}
             onValueChange={({ formattedValue, value }) =>
-              setAmount(parseInt(value))
+              setAmount(parseFloat(value))
             }
             displayType="input"
+            decimalScale={2}
+            inputMode="decimal"
+            placeholder="Enter Amount"
+            size="md"
+            color="#012A74"
+            variant="filled"
+            autoFocus
             thousandSeparator
-            prefix={"Le"}
+            allowNegative={false}
+            prefix={"Le "}
+            suffix={ props.direction && amount < 0.99 ? " cents" : ""}
             customInput={TextInput}
           />
-          {/* <TextInput pl="md" variant="filled" placeholder="Enter amount" value={amount} onChange={(event) => setAmount(parseInt(event.currentTarget.value))} /> */}
         </Card.Section>
         <Group>
           <Exchange />
-          <ActionIcon
-            onClick={() => setAmount(0)}
-            color="blue"
-            size="xl"
-            radius="md"
-            variant="light"
-          >
-            <Refresh size={44} strokeWidth={2} color={"#79d2c3"} />
-          </ActionIcon>
+          <Button onClick={()=>setAmount(0)} color="red" size="sm" radius="lg" variant="light">
+          Clear inputs
+        </Button> 
         </Group>
-
         <Card.Section p="lg">
           <Group spacing="lg" p="xs">
             <SlFlag />{" "}
@@ -77,13 +78,20 @@ const Converter: FC<Props> = (props) => {
               {props.flagName2}
             </Text>
           </Group>
-          {/* <TextInput variant="filled" placeholder="" pl="md" value={`Le ${amount / 100}`} /> */}
           <NumberFormat
-            value={!props.direction ? amount / 1000 : amount * 1000}
-            displayType="input"
+            value={!props.direction ? amount / 1000 : amount * 1000 || 0}
+            displayType="text"
             thousandSeparator
-            prefix={"Le"}
-            customInput={TextInput}
+            decimalScale={2}
+            fixedDecimalScale
+            type="text"
+            prefix={"Le "}
+            renderText={(value) => (
+              <Title order={3} style={{ color: "#012A74" }} pl={20}>
+                {value}
+              </Title>
+            )}
+            suffix={!props.direction && amount / 1000 < 0.99 ? " cents" : ""}
           />
         </Card.Section>
       </Card>
