@@ -13,11 +13,12 @@ import {
   Box,
   Image,
   LoadingOverlay,
+  Overlay
 } from "@mantine/core";
 import Converter from "./components/Converter/converter";
 import Exchange from "./components/Exchange/Exchange";
 import Calculator from "./components/Calculator/Calculator";
-import { useLocalStorage } from "@mantine/hooks";
+import { useLocalStorage, useScrollIntoView } from "@mantine/hooks";
 const axios = require("axios").default;
 
 function App() {
@@ -31,6 +32,8 @@ function App() {
     },
   });
   const [loading, setLoading] = useState(false);
+  const [IsError, setIsError ] = useState(false)
+  const { scrollIntoView, targetRef } = useScrollIntoView<HTMLDivElement>();
 
   useEffect(() => {
     setLoading(true);
@@ -39,8 +42,14 @@ function App() {
       .then((res: any) => {
         setRates(res.data);
         setLoading(false);
+        scrollIntoView()
       })
-      .catch((error: any) => console.log(error));
+      .catch((error: any) => {
+        console.log(error)
+        setIsError(true)
+        setLoading(false)
+        scrollIntoView()
+      });
   }, []);
 
   return (
@@ -49,10 +58,11 @@ function App() {
         <LoadingOverlay visible={loading} />
       ) : (
         <AppShell
+
           padding={0}
           header={
-            <Header fixed height={60} pt="sm" pl="lg">
-              <Group>
+            <Header fixed height={60} pt="sm" pl="lg" >
+              <Group ref={targetRef}>
                 <Box component="a" href="https://bsl.gov.sl">
                   <Image
                     width={40}
@@ -62,7 +72,7 @@ function App() {
                   />
                   
                 </Box>
-                <Title order={3} style={{ color: "#0059B3" }}>
+                <Title order={3} style={{ color: "#0059B3" }} >
                     The Bank of Sierra Leone
                   </Title>
               </Group>
@@ -89,7 +99,7 @@ function App() {
             fluid
           >
             <Stack align="center" justify="center" spacing="lg">
-              <Title style={{ color: "#0059B3" }}>Leones Converter</Title>
+              <Title style={{ color: "#0059B3" }} >Leones Converter</Title>
               <Group py="lg" spacing="xl">
                 <Converter
                   flagName1={"SLL"}
@@ -116,11 +126,13 @@ function App() {
               alignItems: "center",
             }}
           >
-            <Center>
+            <Box sx={{ position: 'relative' }}> 
+              
               <Stack align="center" justify="center">
-                <Title style={{ color: "white", paddingTop: "57px" }}>
-                  Forex Exchanges
+                <Title style={{ color: `${IsError ? "red" : "white"}`, paddingTop: "57px" }}>
+                  {IsError ? "Forex Not Available" : "Forex Exchanges"}
                 </Title>
+                
 
                 <Card
                   shadow="lg"
@@ -130,8 +142,13 @@ function App() {
                   pb={30}
                   component="div"
                   style={{ margin: "40px", justifySelf: "center" }}
+
                 >
+                  
+                  { IsError && <Overlay opacity={0.6} color="#000" blur={4}/> }
                   <Stack align="center" justify="center">
+                  
+                  {/* {IsError && <p>fag</p>} */}
                     <Title
                       style={{ color: "#0059B3", padding: "10px" }}
                       order={4}
@@ -144,7 +161,7 @@ function App() {
                   <Calculator rates={rates} />
                 </Card>
               </Stack>
-            </Center>
+            </Box>
           </Container>
         </AppShell>
       )}
