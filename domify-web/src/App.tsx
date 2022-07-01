@@ -11,7 +11,9 @@ import {
   Divider,
   Center,
   Stack,
-  LoadingOverlay
+  Box,
+  Image,
+  LoadingOverlay,
 } from "@mantine/core";
 import Converter from "./components/Converter/converter";
 import Exchange from "./components/Exchange/Exchange";
@@ -20,105 +22,132 @@ import { useLocalStorage } from "@mantine/hooks";
 const axios = require("axios").default;
 
 function App() {
-  const [rates, setRates] = useLocalStorage<any>({key: "rates", defaultValue: {usd: {buying: '11,140'}, gbp: {buying: '11,140'}, euro: {buying: '11,140'}}})
+  const [rates, setRates] = useLocalStorage<any>({
+    key: "rates",
+    defaultValue: {
+      usd: { buying: "11,140" },
+      gbp: { buying: "11,140" },
+      euro: { buying: "11,140" },
+    },
+  });
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setLoading(true)
+    setLoading(true);
     axios
       .get("https://slmoney-converter.herokuapp.com/")
-      .then((res: any) =>
-      { 
-        setRates(res.data)
-        setLoading(false)
-      
+      .then((res: any) => {
+        setRates(res.data);
+        setLoading(false);
       })
       .catch((error: any) => console.log(error));
-  },[]);
+  }, []);
 
   return (
     <div className="App">
-      { loading ? <LoadingOverlay visible={loading}/> :
-      <AppShell
-        padding={0}
-        header={
-          <Header fixed height={60} pt="sm" pl="lg">
-            <Title order={3}>SL Data Science Community</Title>
-          </Header>
-        }
-        styles={(theme) => ({
-          main: {
-            backgroundColor:
-              theme.colorScheme === "dark"
-                ? theme.colors.dark[8]
-                : theme.colors.gray[0],
-          },
-        })}
-        
-      >
-        <Container
-          style={{ width: "100%", padding: "40px", marginTop: "40px" }}
-          fluid
-        >
-          <Stack align="center" justify="center" spacing="lg">
-            <Title style={{ color: "#0059B3" }}>Leones Converter</Title>
-            <Group py="lg" spacing="xl">
-              <Converter
-              flagName1={"SLL OLD"}
-              flagName2={"SLL NEW"}
-                title="OLD TO NEW LEONES"
-                subTitle="1000 SLL Old = 1 SLL New"
-              />
-              <Converter
-                flagName1={"SLL NEW"}
-                flagName2={"SLL OLD"}
-                title="NEW TO OLD LEONES"
-                direction="new"
-                subTitle="1 SLL New = 100 SLL Old"
-              />
-            </Group>
-          </Stack>
-        </Container>
-        <Container
-          style={{
-            backgroundColor: "#0059B3",
-            width: "100%",
-            maxWidth: "100%",
-            justifyItems: "center",
-            alignItems: "center",
-          }}
-        >
-          <Center>
-            <Stack align="center" justify="center">
-              <Title style={{ color: "white", paddingTop: "57px" }}>
-                Forex Exchanges
-              </Title>
-
-              <Card
-                shadow="lg"
-                p="lg"
-                radius="md"
-                pt={30}
-                pb={30}
-                component="div"
-                style={{ margin: "40px", justifySelf: "center" }}
-              >
-                <Stack align="center" justify="center">
-                  <Title
-                    style={{ color: "#0059B3", padding: "10px" }}
-                    order={4}
-                  >
-                    Rates for today
+      {loading ? (
+        <LoadingOverlay visible={loading} />
+      ) : (
+        <AppShell
+          padding={0}
+          header={
+            <Header fixed height={60} pt="sm" pl="lg">
+              <Group>
+                <Box component="a" href="https://bsl.gov.sl">
+                  <Image
+                    width={40}
+                    height={40}
+                    fit="contain"
+                    src="https://bsl.gov.sl/BSL_Logo.jpeg"
+                  />
+                  
+                </Box>
+                <Title order={3} style={{ color: "#0059B3" }}>
+                    Bank ok Sierra Leone
                   </Title>
-                  <Exchange rates={rates} />
-                </Stack>
-                <Divider />
-                <Calculator rates={rates} />
-              </Card>
+              </Group>
+            </Header>
+          }
+          footer={
+            <Footer height={60} p="md">
+            <Title order={5}>
+                Design & by the Salone Data Science Community Team
+            </Title>
+            </Footer>
+          }
+          styles={(theme) => ({
+            main: {
+              backgroundColor:
+                theme.colorScheme === "dark"
+                  ? theme.colors.dark[8]
+                  : theme.colors.gray[0],
+            },
+          })}
+        >
+          <Container
+            style={{ marginTop: "100px", marginBottom: '40px' }}
+            fluid
+          >
+            <Stack align="center" justify="center" spacing="lg">
+              <Title style={{ color: "#0059B3" }}>Leones Converter</Title>
+              <Group py="lg" spacing="xl">
+                <Converter
+                  flagName1={"SLL"}
+                  flagName2={"SLE"}
+                  title="OLD TO NEW LEONES"
+                  subTitle="1000 SLL  = 1 SLE"
+                />
+                <Converter
+                  flagName1={"SLE"}
+                  flagName2={"SLL"}
+                  title="NEW TO OLD LEONES"
+                  direction="new"
+                  subTitle="1 SLE = 1000 SLL"
+                />
+              </Group>
             </Stack>
-          </Center>
-        </Container>
-      </AppShell>}
+          </Container>
+          <Container
+            style={{
+              backgroundColor: "#0059B3",
+              width: "100%",
+              maxWidth: "100%",
+              justifyItems: "center",
+              alignItems: "center",
+            }}
+          >
+            <Center>
+              <Stack align="center" justify="center">
+                <Title style={{ color: "white", paddingTop: "57px" }}>
+                  Forex Exchanges
+                </Title>
+
+                <Card
+                  shadow="lg"
+                  p="lg"
+                  radius="md"
+                  pt={30}
+                  pb={30}
+                  component="div"
+                  style={{ margin: "40px", justifySelf: "center" }}
+                >
+                  <Stack align="center" justify="center">
+                    <Title
+                      style={{ color: "#0059B3", padding: "10px" }}
+                      order={4}
+                    >
+                      Rates for today
+                    </Title>
+                    <Exchange rates={rates} />
+                  </Stack>
+                  <Divider />
+                  <Calculator rates={rates} />
+                </Card>
+              </Stack>
+            </Center>
+          </Container>
+        </AppShell>
+      )}
     </div>
   );
 }
