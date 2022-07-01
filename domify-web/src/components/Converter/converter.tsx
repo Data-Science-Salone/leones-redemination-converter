@@ -3,7 +3,6 @@ import { Card, TextInput, Text, Group, Button, Title } from "@mantine/core";
 import { ReactComponent as Coins } from "../../assets/coins.svg";
 import { ReactComponent as Exchange } from "../../assets/exchange.svg";
 import { ReactComponent as SlFlag } from "../../assets/slflag.svg";
-import { Refresh } from "tabler-icons-react";
 import NumberFormat from "react-number-format";
 
 interface Props {
