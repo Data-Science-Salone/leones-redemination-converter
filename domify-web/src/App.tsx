@@ -7,7 +7,6 @@ import {
   Group,
   Title,
   Card,
-  Text,
   Divider,
   Center,
   Stack,
@@ -28,6 +27,7 @@ function App() {
       usd: { buying: "11,140" },
       gbp: { buying: "11,140" },
       euro: { buying: "11,140" },
+      usd_mid: { 'usd midrate': "11,140"}
     },
   });
   const [loading, setLoading] = useState(false);

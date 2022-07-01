@@ -1,10 +1,5 @@
-import React, { FC, ReactElement, useEffect, useState } from "react";
-import { Card, TextInput, Text, Group, ActionIcon, Title, Grid } from "@mantine/core";
-import { ReactComponent as Usaflag } from "../../assets/usaflag.svg";
-import { ReactComponent as Ukflag } from "../../assets/ukflag.svg";
-import { ReactComponent as Euroflag } from "../../assets/euroflag.svg";
-import { ReactComponent as Slflag } from "../../assets/slflagRound.svg";
-import { Refresh } from "tabler-icons-react";
+import React, { FC, ReactElement, useEffect } from "react";
+import { Text, Group, Title } from "@mantine/core";
 import NumberFormat from "react-number-format";
 
 interface Props {

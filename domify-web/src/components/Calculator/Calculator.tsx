@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, useEffect, useState, useRef, forwardRef } from "react";
+import React, { FC, useState, forwardRef } from "react";
 import { Card, TextInput, Select, Group, Title, Text, Button, Center } from "@mantine/core";
 import { ReactComponent as ExchangeHorizonta } from "../../assets/exchangehorizontal.svg";
 
@@ -8,13 +8,6 @@ import NumberFormat from "react-number-format";
 interface Props {
   rates: any;
 }
-
-const CustomInput: React.FunctionComponent<any> = (inputProps) => {
-  const handleFocus = (event: React.ChangeEvent<HTMLInputElement>) => {
-    event.target.setSelectionRange(0, event.target.value.length - 1);
-  };
-  return <TextInput  {...inputProps} onFocus={handleFocus} />;
-};
 
 const Calculator: FC<Props> = (props) => {
   const { rates } = props;

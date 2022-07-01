@@ -1,16 +1,12 @@
-import React, { FC, ReactElement, useEffect, useState } from "react";
+import React, { FC } from "react";
 import { Group, Stack } from "@mantine/core";
-import { useLocalStorage } from '@mantine/hooks';
 import { ReactComponent as Usaflag } from "../../assets/usaflag.svg";
 import { ReactComponent as Ukflag } from "../../assets/ukflag.svg";
 import { ReactComponent as Euroflag } from "../../assets/euroflag.svg";
 import { ReactComponent as Slflag } from "../../assets/slflagRound.svg";
 import { ReactComponent as LeftArrow } from "../../assets/leftArrow.svg";
-
-import { Refresh } from "tabler-icons-react";
-import NumberFormat from "react-number-format";
 import Currency from "../Currency/Currency";
-const axios = require('axios').default;
+
 
 interface Props {
   rates: any
