@@ -13,7 +13,8 @@ import {
   Box,
   Image,
   LoadingOverlay,
-  Overlay
+  SegmentedControl,
+  Overlay,
 } from "@mantine/core";
 import Converter from "./components/Converter/converter";
 import Exchange from "./components/Exchange/Exchange";
@@ -28,11 +29,12 @@ function App() {
       usd: { buying: "11,140" },
       gbp: { buying: "11,140" },
       euro: { buying: "11,140" },
-      usd_mid: { 'usd midrate': "11,140"}
+      usd_mid: { "usd midrate": "11,140" },
     },
   });
   const [loading, setLoading] = useState(false);
-  const [IsError, setIsError ] = useState(false)
+  const [IsError, setIsError] = useState(false);
+  const [currency, setCurrency] = useState('sle')
   const { scrollIntoView, targetRef } = useScrollIntoView<HTMLDivElement>();
 
   useEffect(() => {
@@ -42,26 +44,22 @@ function App() {
       .then((res: any) => {
         setRates(res.data);
         setLoading(false);
-        scrollIntoView()
+        scrollIntoView();
       })
       .catch((error: any) => {
-        console.log(error)
-        setIsError(true)
-        setLoading(false)
-        scrollIntoView()
+        console.log(error);
+        setIsError(true);
+        setLoading(false);
+        scrollIntoView();
       });
   }, []);
 
   return (
     <div className="App">
-      {loading ? (
-        <LoadingOverlay visible={loading} />
-      ) : (
         <AppShell
-
           padding={0}
           header={
-            <Header fixed height={60} pt="sm" pl="lg" >
+            <Header fixed height={60} pt="sm" pl="lg">
               <Group ref={targetRef}>
                 <Box component="a" href="https://bsl.gov.sl">
                   <Image
@@ -70,19 +68,18 @@ function App() {
                     fit="contain"
                     src="https://bsl.gov.sl/BSL_Logo.jpeg"
                   />
-                  
                 </Box>
-                <Title order={3} style={{ color: "#0059B3" }} >
-                    The Bank of Sierra Leone
-                  </Title>
+                <Title order={3} style={{ color: "#0059B3" }}>
+                  The Bank of Sierra Leone
+                </Title>
               </Group>
             </Header>
           }
           footer={
             <Footer height={60} p="md">
-            <Title order={5}>
-            Developed & Maintained by Data Science Salone
-            </Title>
+              <Title order={5}>
+                Developed & Maintained by Data Science Salone
+              </Title>
             </Footer>
           }
           styles={(theme) => ({
@@ -94,12 +91,9 @@ function App() {
             },
           })}
         >
-          <Container
-            style={{ marginTop: "100px", marginBottom: '40px' }}
-            fluid
-          >
+          <Container style={{ marginTop: "100px", marginBottom: "40px" }} fluid>
             <Stack align="center" justify="center" spacing="lg">
-              <Title style={{ color: "#0059B3" }} >Leones Converter</Title>
+              <Title style={{ color: "#0059B3" }}>Leones Converter</Title>
               <Group py="lg" spacing="xl">
                 <Converter
                   flagName1={"SLL"}
@@ -126,13 +120,16 @@ function App() {
               alignItems: "center",
             }}
           >
-            <Box sx={{ position: 'relative' }}> 
-              
+            <Box sx={{ position: "relative" }}>
               <Stack align="center" justify="center">
-                <Title style={{ color: `${IsError ? "red" : "white"}`, paddingTop: "57px" }}>
+                <Title
+                  style={{
+                    color: `${IsError ? "red" : "white"}`,
+                    paddingTop: "57px",
+                  }}
+                >
                   {IsError ? "Forex Not Available" : "Forex Exchanges"}
                 </Title>
-                
 
                 <Card
                   shadow="lg"
@@ -142,20 +139,28 @@ function App() {
                   pb={30}
                   component="div"
                   style={{ margin: "40px", justifySelf: "center" }}
-
                 >
-                  
-                  { IsError && <Overlay opacity={0.6} color="#000" blur={4}/> }
+                  {IsError && <Overlay opacity={0.6} color="#000" blur={4} />}
                   <Stack align="center" justify="center">
-                  
-                  {/* {IsError && <p>fag</p>} */}
                     <Title
                       style={{ color: "#0059B3", padding: "10px" }}
                       order={4}
                     >
                       Rates for today
                     </Title>
-                    <Exchange rates={rates} />
+                    <SegmentedControl
+                    radius={10}
+                    transitionDuration={300}
+                    value={currency}
+                    size="md"
+                    onChange={setCurrency}
+                    transitionTimingFunction="linear"
+                      data={[
+                        { value: "sle", label: "SLE", },
+                        { value: "sll", label: "SLL" },
+                      ]}
+                    />
+                    <Exchange rates={rates} currency={currency} isLoading={loading}  />
                   </Stack>
                   <Divider />
                   <Calculator rates={rates} />
@@ -164,7 +169,6 @@ function App() {
             </Box>
           </Container>
         </AppShell>
-      )}
     </div>
   );
 }
