@@ -35,7 +35,7 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [IsError, setIsError] = useState(false);
   const [currency, setCurrency] = useState('sle')
-  const { scrollIntoView, targetRef } = useScrollIntoView<HTMLDivElement>();
+  const { scrollIntoView, targetRef } = useScrollIntoView<HTMLDivElement>({offset: 100, duration: 100});
 
   useEffect(() => {
     setLoading(true);
@@ -44,7 +44,7 @@ function App() {
       .then((res: any) => {
         setRates(res.data);
         setLoading(false);
-        scrollIntoView();
+        scrollIntoView({alignment: 'start'});
       })
       .catch((error: any) => {
         console.log(error);
@@ -60,7 +60,7 @@ function App() {
           padding={0}
           header={
             <Header fixed height={60} pt="sm" pl="lg">
-              <Group ref={targetRef}>
+              <Group >
                 <Box component="a" href="https://bsl.gov.sl">
                   <Image
                     width={40}
@@ -69,7 +69,7 @@ function App() {
                     src="https://bsl.gov.sl/BSL_Logo.jpeg"
                   />
                 </Box>
-                <Title order={3} style={{ color: "#0059B3" }}>
+                <Title order={3} style={{ color: "#0059B3" }} ref={targetRef}>
                   The Bank of Sierra Leone
                 </Title>
               </Group>
@@ -91,7 +91,7 @@ function App() {
             },
           })}
         >
-          <Container style={{ marginTop: "100px", marginBottom: "40px" }} fluid>
+          <Container ref={targetRef} style={{ marginTop: "100px", marginBottom: "40px" }} fluid>
             <Stack align="center" justify="center" spacing="lg">
               <Title style={{ color: "#0059B3" }}>Leones Converter</Title>
               <Group py="lg" spacing="xl">
