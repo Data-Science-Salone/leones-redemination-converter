@@ -1,5 +1,5 @@
 import React, { FC, ReactElement, useEffect } from "react";
-import { Text, Group, Title } from "@mantine/core";
+import { Text, Group, Title, Skeleton } from "@mantine/core";
 import NumberFormat from "react-number-format";
 
 interface Props {
@@ -7,6 +7,7 @@ interface Props {
   amount: string;
   symbol: string;
   flag: ReactElement;
+  isLoading?: boolean
 }
 
 interface Direction {
@@ -15,7 +16,7 @@ interface Direction {
 }
 
 const Currency: FC<Props> = props => {
-  const {name, amount, symbol, flag } = props
+  const {name, amount, symbol, flag, isLoading } = props
 
   useEffect(() => {});
 
@@ -37,9 +38,11 @@ const Currency: FC<Props> = props => {
         prefix={symbol}
         displayType={"text"}
         renderText={(value) => (
+          <Skeleton visible={isLoading || false} height={40}  radius="md">
           <Title order={1} style={{ color: "#012A74" }}>
             {value}
           </Title>
+          </Skeleton>
         )}
       />
     </div>
